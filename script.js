@@ -1,5 +1,11 @@
 // Charger les membres depuis le localStorage s'ils existent
 const membres = JSON.parse(localStorage.getItem("membres")) || [];
+// vérifier les anciens membres sans points/XP
+membres.forEach(m => {
+  if (m.points === undefined) m.points = 0;
+  if (m.experience === undefined) m.experience = 0;
+  if (m.niveau === undefined) m.niveau = 1;
+});
 
 const formMembre = document.getElementById("formMembre");
 const listeMembres = document.getElementById("listeMembres");
@@ -14,7 +20,7 @@ formMembre.addEventListener("submit", function(event) {
   const age = parseInt(document.getElementById("age").value);
   const avatar = document.getElementById("avatar").value;
 
-  membres.push({ prenom: prenom, age: age, avatar: avatar });
+  membres.push({ prenom: prenom, age: age, avatar: avatar, points: 0, experience: 0, niveau: 1 });
 
   // sauvegarder dans localStorage
   localStorage.setItem("membres", JSON.stringify(membres));
@@ -27,16 +33,21 @@ function afficherMembres() {
   listeMembres.innerHTML = "";
   membres.forEach(function(membre) {
     listeMembres.innerHTML += `
-      <li>
+    <li>
         <img src="${membre.avatar}" alt="avatar" width="50">
-        ${membre.prenom} (âge : ${membre.age} ans)
-      </li>
+        ${membre.prenom} (âge : ${membre.age} ans) 
+        - Niveau ${membre.niveau} (XP : ${membre.experience}) - Points : ${membre.points}
+    </li>
     `;
   });
 }
 
 // Charger les pièces depuis localStorage
-const pieces = JSON.parse(localStorage.getItem("pieces")) || [];
+let pieces = JSON.parse(localStorage.getItem("pieces"));
+if (!pieces) {
+  pieces = ["Cuisine", "Salon", "Chambre", "Salle de bain"];
+  localStorage.setItem("pieces", JSON.stringify(pieces));
+}
 
 const formPiece = document.getElementById("formPiece");
 const listePieces = document.getElementById("listePieces");
@@ -76,7 +87,16 @@ function supprimerPiece(index) {
   afficherPieces();
 }
 // Charger les tâches depuis localStorage
-const taches = JSON.parse(localStorage.getItem("taches")) || [];
+let taches = JSON.parse(localStorage.getItem("taches"));
+if (!taches) {
+  taches = [
+    { nom: "Passer l'aspirateur", piece: "Salon" },
+    { nom: "Faire la vaisselle", piece: "Cuisine" },
+    { nom: "Ranger les jouets", piece: "Chambre" },
+    { nom: "Nettoyer le lavabo", piece: "Salle de bain" }
+  ];
+  localStorage.setItem("taches", JSON.stringify(taches));
+}
 
 const formTache = document.getElementById("formTache");
 const listeTaches = document.getElementById("listeTaches");
@@ -84,10 +104,10 @@ const pieceTache = document.getElementById("pieceTache");
 
 // mettre à jour le menu déroulant des pièces
 function mettreAJourSelectPieces() {
-  pieceTache.innerHTML = "";
-  pieces.forEach(function(piece) {
-    pieceTache.innerHTML += `<option value="${piece}">${piece}</option>`;
-  });
+    pieceTache.innerHTML = `<option value="all">Toutes les pièces</option>`;
+pieces.forEach(function(piece) {
+  pieceTache.innerHTML += `<option value="${piece}">${piece}</option>`;
+});
 }
 
 // appel au démarrage
@@ -100,9 +120,16 @@ formTache.addEventListener("submit", function(event) {
   event.preventDefault();
 
   const nomTache = document.getElementById("nomTache").value;
-  const pieceChoisie = document.getElementById("pieceTache").value;
+ const pieceChoisie = document.getElementById("pieceTache").value;
 
+if (pieceChoisie === "all") {
+  // ajouter la même tâche pour toutes les pièces
+  pieces.forEach(function(piece) {
+    taches.push({ nom: nomTache, piece: piece });
+  });
+} else {
   taches.push({ nom: nomTache, piece: pieceChoisie });
+}
 
   // sauvegarder dans localStorage
   localStorage.setItem("taches", JSON.stringify(taches));
@@ -169,14 +196,52 @@ function genererHoraire() {
     });
   });
 
-  // affichage
+  afficherCalendrier(calendrier);
+  
+  localStorage.setItem("calendrier", JSON.stringify(calendrier));
+}
+
+function validerTache(prenom, bouton) {
+  const membre = membres.find(m => m.prenom === prenom);
+  if (membre) {
+    membre.points += 5;
+    membre.experience += 10;
+    if (membre.experience >= membre.niveau * 20) {
+      membre.niveau += 1;
+      membre.experience = 0;
+      alert(`${membre.prenom} est monté au niveau ${membre.niveau} ! 🎉`);
+    }
+    // sauvegarde
+    localStorage.setItem("membres", JSON.stringify(membres));
+    afficherMembres();
+    // désactiver le bouton pour éviter les clics multiples
+    bouton.disabled = true;
+    bouton.textContent = "Terminé ✔️";
+  }
+}
+// Charger le calendrier s'il existe
+const calendrierSauvegarde = JSON.parse(localStorage.getItem("calendrier"));
+
+if (calendrierSauvegarde) {
+  afficherCalendrier(calendrierSauvegarde);
+}
+
+function afficherCalendrier(calendrier) {
+  calendrierDiv.innerHTML = "";
+  const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
   jours.forEach(jour => {
     calendrierDiv.innerHTML += `<h4>${jour}</h4>`;
     if (calendrier[jour].length === 0) {
       calendrierDiv.innerHTML += "<p>Aucune tâche</p>";
     } else {
       calendrier[jour].forEach(item => {
-        calendrierDiv.innerHTML += `<p>${item.membre} doit ${item.tache} dans ${item.piece}</p>`;
+        calendrierDiv.innerHTML += `
+          <p>
+            ${item.membre} doit ${item.tache} dans ${item.piece}
+            <button onclick="validerTache('${item.membre}', this)">J’ai terminé !</button>
+          </p>
+        `;
       });
     }
   });
