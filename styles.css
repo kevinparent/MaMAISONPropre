@@ -1,53 +1,58 @@
 body {
   font-family: "Comic Sans MS", cursive, sans-serif;
-  background-color: #f0f8ff;
-  margin: 0;
-  padding: 20px;
-}
-
-body {
   background-image: url("./images/fond.png");
-  background-size: cover;       /* ou contain, selon ton choix */
-  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* <-- fond fixe */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-
 
 h1, h2, h3, h4 {
-  color: #2e7d32;
+  color: #1976d2; /* bleu foncé */
 }
 
+/* zone des formulaires */
 form {
-  background-color: rgba(255, 255, 255, 0.7); /* blanc transparent à 70% */
-  border: 2px solid #81c784;
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.3); /* bleu très très pâle transparent */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 15px;
   margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
 }
 
+form:hover {
+  transform: scale(1.02);
+}
 
 label {
   display: block;
   margin-top: 10px;
+  color: #1976d2;
 }
 
 input, select, button {
   margin-top: 5px;
   padding: 8px;
   border-radius: 5px;
-  border: 1px solid #81c784;
+  border: 1px solid #64b5f6;
+  transition: box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+  box-shadow: 0 0 5px #64b5f6;
 }
 
 button {
-  background-color: #4caf50;
+  background-color: #64b5f6;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #1976d2;
 }
 
 ul {
@@ -56,25 +61,96 @@ ul {
 }
 
 li {
-  background-color: rgba(200, 230, 201, 0.7); /* vert pâle transparent */
-  border: 1px solid #81c784;
+ background-color: rgba(255, 255, 255, 0.3); /* bleu très très pâle transparent */
+  border: 1px solid rgba(255, 255, 255, 0.6);
   margin: 5px 0;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+li:hover {
+  transform: scale(1.01);
+}
+
+#calendrier {
+  background-color: rgba(255, 255, 255, 0.3); /* bleu très très pâle transparent */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+}
+
+#calendrier h4 {
+  background-color: #bbdefb;
+  color: #1976d2;
   padding: 5px;
   border-radius: 5px;
 }
-
-
-#calendrier {
-  background-color: #ffffff;
-  border: 2px solid #81c784;
-  border-radius: 10px;
-  padding: 10px;
+#boutique {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-#calendrier {
-  background-color: rgba(255, 255, 255, 0.7); /* transparent */
-  border: 2px solid #81c784;
+.accessoire {
+  background-color: rgba(255,255,255,0.5);
+  border: 2px solid #64b5f6;
   border-radius: 10px;
   padding: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
 }
 
+#tableCalendrier {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tableCalendrier th, #tableCalendrier td {
+  border: 1px solid #64b5f6;
+  padding: 10px;
+  vertical-align: top;
+  background-color: rgba(255,255,255,0.5);
+}
+
+#tableCalendrier th {
+  background-color: #64b5f6;
+  color: white;
+}
+
+#tableCalendrier td {
+  min-height: 150px;
+}
+
+/* menu fixe en haut */
+#menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #1976d2;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  z-index: 1000;
+}
+
+#menu button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#menu button:hover {
+  text-decoration: underline;
+}
+
+/* pages */
+.page {
+  margin-top: 60px; /* pour laisser la place au menu */
+  padding: 20px;
+  display: none;
+}

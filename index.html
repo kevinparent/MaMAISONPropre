@@ -6,8 +6,16 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+    <nav id="menu">
+    <button onclick="afficherPage('famille')">👨‍👩‍👧‍👦 Famille</button>
+    <button onclick="afficherPage('pieces')">🏠 Pièces</button>
+    <button onclick="afficherPage('taches')">🧹 Tâches</button>
+    <button onclick="afficherPage('planning')">📅 Planning</button>
+    <button onclick="afficherPage('boutique')">🛍️ Boutique</button>
+    </nav>
+
   <h1>Bienvenue dans le jeu des tâches en famille ma MAISON propre !</h1>
-  
+    <section id="page-famille" class="page">
     <h2>Gestion de la famille</h2>
     <form id="formMembre">
     <label>Prénom :
@@ -30,18 +38,22 @@
 
     <h3>Liste des membres</h3>
     <ul id="listeMembres"></ul>
+    </section>
 
-    <h2>Gestion des pièces</h2>
-    <form id="formPiece">
-    <label>Nom de la pièce :
-        <input type="text" id="nomPiece" required>
-    </label>
-    <button type="submit">Ajouter la pièce</button>
-    </form>
+    <section id="page-pieces" class="page">
+        <h2>Gestion des pièces</h2>
+        <form id="formPiece">
+        <label>Nom de la pièce :
+            <input type="text" id="nomPiece" required>
+        </label>
+        <button type="submit">Ajouter la pièce</button>
+        </form>
 
-    <h3>Liste des pièces</h3>
-    <ul id="listePieces"></ul>
+        <h3>Liste des pièces</h3>
+        <ul id="listePieces"></ul>
+    </section>
 
+    <section id="page-taches" class="page">
     <h2>Gestion des tâches ménagères</h2>
 <form id="formTache">
   <label>Nom de la tâche :
@@ -57,14 +69,20 @@
 
 <h3>Liste des tâches</h3>
 <ul id="listeTaches"></ul>
-<h2>Gestion de l’horaire</h2>
-<button id="genererHoraire">Générer l’horaire de la semaine</button>
+</section>
 
-<h3>Calendrier de la semaine</h3>
-<div id="calendrier"></div>
+<section id="page-planning" class="page">
+    <h2>Gestion de l’horaire</h2>
+    <button id="genererHoraire">Générer l’horaire de la semaine</button>
 
+    <h3>Calendrier de la semaine</h3>
+    <div id="calendrier"></div>
+</section>
 
-
+<section id="page-boutique" class="page">
+    <h2>Boutique d'accessoires</h2>
+    <div id="boutique"></div>
+    </section>
   
   <script src="script.js"></script>
 </body>
