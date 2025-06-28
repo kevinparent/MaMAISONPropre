@@ -34,3 +34,44 @@ function afficherMembres() {
     `;
   });
 }
+
+// Charger les pièces depuis localStorage
+const pieces = JSON.parse(localStorage.getItem("pieces")) || [];
+
+const formPiece = document.getElementById("formPiece");
+const listePieces = document.getElementById("listePieces");
+
+// afficher les pièces au démarrage
+afficherPieces();
+
+formPiece.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const nomPiece = document.getElementById("nomPiece").value;
+
+  pieces.push(nomPiece);
+
+  // sauvegarder dans localStorage
+  localStorage.setItem("pieces", JSON.stringify(pieces));
+
+  afficherPieces();
+  formPiece.reset();
+});
+
+function afficherPieces() {
+  listePieces.innerHTML = "";
+  pieces.forEach(function(piece, index) {
+    listePieces.innerHTML += `
+      <li>
+        ${piece}
+        <button onclick="supprimerPiece(${index})">Supprimer</button>
+      </li>
+    `;
+  });
+}
+
+function supprimerPiece(index) {
+  pieces.splice(index, 1);
+  localStorage.setItem("pieces", JSON.stringify(pieces));
+  afficherPieces();
+}
