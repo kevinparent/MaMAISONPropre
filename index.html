@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ma MAISON propre</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Bienvenue dans le jeu des tâches en famille ma MAISON propre !</h1>
+  
+    <h2>Gestion de la famille</h2>
+    <form id="formMembre">
+    <label>Prénom :
+        <input type="text" id="prenom" required>
+    </label>
+    <label>Âge :
+        <input type="number" id="age" required>
+    </label>
+    <label>Avatar :
+        <select id="avatar" required>
+        <option value="./images/avatar_fille.png">Avatar fille</option>
+        <option value="./images/avatar_garcon.png">Avatar garcon</option>
+        <option value="./images/avatar_maman.png">Avatar maman</option>
+        <option value="./images/avatar_papa.png">Avatar papa</option>
+        </select>
+    </label>
+    <button type="submit">Ajouter le membre</button>
+    </form>
+
+
+    <h3>Liste des membres</h3>
+    <ul id="listeMembres"></ul>
+
+  
+  <script src="script.js"></script>
+</body>
+</html>
