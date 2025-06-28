@@ -42,6 +42,28 @@
     <h3>Liste des pièces</h3>
     <ul id="listePieces"></ul>
 
+    <h2>Gestion des tâches ménagères</h2>
+<form id="formTache">
+  <label>Nom de la tâche :
+    <input type="text" id="nomTache" required>
+  </label>
+  <label>Pièce :
+    <select id="pieceTache" required>
+      <!-- on remplira ces options en JS -->
+    </select>
+  </label>
+  <button type="submit">Ajouter la tâche</button>
+</form>
+
+<h3>Liste des tâches</h3>
+<ul id="listeTaches"></ul>
+<h2>Gestion de l’horaire</h2>
+<button id="genererHoraire">Générer l’horaire de la semaine</button>
+
+<h3>Calendrier de la semaine</h3>
+<div id="calendrier"></div>
+
+
 
   
   <script src="script.js"></script>
